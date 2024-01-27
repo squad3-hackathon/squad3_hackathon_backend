@@ -35,6 +35,8 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
+    public Optional<User> getUserById(Long id) { return userRepository.findById(id); }
+
     public User create(UserDTO userDTO) {
         Optional<User> existUser = userRepository.findByEmail(userDTO.email());
 
