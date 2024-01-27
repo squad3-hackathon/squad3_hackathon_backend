@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "projects")
@@ -11,30 +12,40 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private String title;
-
     @NotNull
     @NotBlank
-    @Column(unique = true)
-    private String link;
-
+    @Column(nullable = false)
+    private String title;
+    @NotNull
+    @NotBlank
     @Column(length = 1000)
     private String description;
 
-    @Column(name = "imagedata")
+    //@NotNull
+    //@NotBlank
+    @Column(length = 500)
+    @Pattern(regexp = "^(http|https)://.*|$", message = "URL informada inválida.") // este regex verifica se a url começa com http ou https
+    private String link;
+
+
+    @NotNull
+    @Column(name = "imagedata", nullable = false)
     private byte[] data;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Project(){
 
     }
 
-    public Project(String title, String description,String link, byte[] data){
+    public Project(String title, String description,String link, byte[] data, User user){
         this.title = title;
         this.link = link;
         this.description = description;
         this.data = data;
+        this.user = user;
     }
 
     public Long getId() {
@@ -76,4 +87,8 @@ public class Project {
     public void setData(byte[] data) {
         this.data = data;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }
