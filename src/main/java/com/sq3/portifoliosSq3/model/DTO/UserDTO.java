@@ -1,6 +1,5 @@
 package com.sq3.portifoliosSq3.model.DTO;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +18,6 @@ public record UserDTO (
         @NotNull
         @NotBlank
         @Email(message = "Email inválido")
-        @Column(unique = true)
         String email,
 
         @NotNull

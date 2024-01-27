@@ -1,4 +1,4 @@
-package com.sq3.portifoliosSq3.security;
+package com.sq3.portifoliosSq3.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
