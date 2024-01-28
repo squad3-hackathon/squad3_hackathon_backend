@@ -39,6 +39,10 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
     public User create(User user) {
         if (this.userRepository.existsByEmail(user.getEmail())) {
             throw new UserCreateException("Usuário já cadastrado " + user.getEmail());

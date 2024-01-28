@@ -1,6 +1,7 @@
 package com.sq3.portifoliosSq3.controller;
 
-import com.sq3.portifoliosSq3.exceptions.RecNotFoundException;
+
+import com.sq3.portifoliosSq3.exceptions.models.RecNotFoundException;
 import com.sq3.portifoliosSq3.model.DTO.ProjectDTO;
 import com.sq3.portifoliosSq3.model.DTO.ResponseDTO;
 import com.sq3.portifoliosSq3.model.Project;
