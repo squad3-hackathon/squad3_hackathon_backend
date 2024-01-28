@@ -28,10 +28,12 @@ public class Project {
     private String link;
 
 
+    @JsonIgnore
+    @Lob
     @NotNull
     @Column(name = "imagedata", nullable = false)
     private byte[] data;
-
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -64,13 +66,11 @@ public class Project {
         this.title = title;
     }
 
-    public String getLink(String link) {
+    public String getLink() {
         return link;
     }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
+    public void setLink(String link) { this.link = link; }
 
     public String getDescription() {
         return description;
