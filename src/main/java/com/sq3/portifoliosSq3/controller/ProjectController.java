@@ -2,6 +2,7 @@ package com.sq3.portifoliosSq3.controller;
 
 import com.sq3.portifoliosSq3.exceptions.RecNotFoundException;
 import com.sq3.portifoliosSq3.model.DTO.ProjectDTO;
+import com.sq3.portifoliosSq3.model.DTO.ProjectListDTO;
 import com.sq3.portifoliosSq3.model.DTO.ResponseDTO;
 import com.sq3.portifoliosSq3.model.Project;
 import com.sq3.portifoliosSq3.model.User;
@@ -85,13 +86,13 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProjectDTO>> getAllProject() {
-        List<ProjectDTO> projects = projectService.getAllProject().stream()
-                .map(project -> new ProjectDTO(
+    public ResponseEntity<List<ProjectListDTO>> getAllProject() {
+        List<ProjectListDTO> projects = projectService.getAllProject().stream()
+                .map(project -> new ProjectListDTO(
                         project.getId(),
-                        project.getTitle(),
-                        project.getDescription(),
-                        project.getLink(),
+//                        project.getTitle(),
+//                        project.getDescription(),
+//                        project.getLink(),
                         project.getData() != null ? Base64.getEncoder().encodeToString(project.getData()) : null,
                         project.getUser().getName()
                 ))
