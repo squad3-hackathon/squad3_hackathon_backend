@@ -1,58 +1,43 @@
 package com.sq3.portifoliosSq3.controller;
 
-import com.sq3.portifoliosSq3.exceptions.InvalidLoginException;
 import com.sq3.portifoliosSq3.model.DTO.ResponseDTO;
 import com.sq3.portifoliosSq3.model.DTO.UserAuthenticationDTO;
 import com.sq3.portifoliosSq3.model.DTO.UserDTO;
 import com.sq3.portifoliosSq3.model.User;
-import com.sq3.portifoliosSq3.security.CustomUserDetails;
-import com.sq3.portifoliosSq3.service.TokenService;
+import com.sq3.portifoliosSq3.model.converter.UserConverter;
 import com.sq3.portifoliosSq3.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
-    private TokenService tokenService;
-    public UserController(UserService userService) {
+    private final UserConverter userConverter;
 
+    @Autowired
+    public UserController(UserService userService, UserConverter userConverter) {
         this.userService = userService;
+        this.userConverter = userConverter;
     }
-
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid UserAuthenticationDTO userAuth) {
-        try {
-            String token = userService.authenticateAndGenerateToken(userAuth);
-            return ResponseEntity.ok(new ResponseDTO(token));
-        } catch (InvalidLoginException exception) {
-            Map <String, String> error = new HashMap<>();
-            error.put ("Erro", exception.getMessage());
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(error);
-        }
+    public ResponseEntity<?> login(@RequestBody @Valid UserAuthenticationDTO userAuth) {
+        String token = userService.authenticateAndGenerateToken(userAuth);
+        return ResponseEntity.ok(new ResponseDTO(token));
     }
-
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid UserDTO user) {
-        userService.create(user);
-        return ResponseEntity.ok().build();
-
-
+    public ResponseEntity<?> register(@RequestBody @Valid UserDTO userDTO) {
+        User user = this.userConverter.convertDtoToEntity(userDTO);
+        User userCreated = this.userService.create(user);
+        return ResponseEntity.ok(userCreated);
     }
+
 }
