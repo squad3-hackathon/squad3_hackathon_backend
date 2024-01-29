@@ -99,6 +99,28 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectDTO> getProjectById(@PathVariable Long id) {
+
+
+        return projectService.getProjectById(id)
+                .map(project -> {
+                    String imageDataBase64 = project.getData() != null
+                          ? Base64.getEncoder().encodeToString(project.getData())
+                          : null;
+                    ProjectDTO projectDTO = new ProjectDTO(
+                            project.getId(),
+                            project.getTitle(),
+                            project.getDescription(),
+                            project.getLink(),
+                            imageDataBase64,
+                            project.getUser().getName()
+                    );
+                    return ResponseEntity.ok(projectDTO);
+                })
+                .orElseThrow(() -> new RecNotFoundException("ID informado não localizado: " + id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDTO> deleteProject(@PathVariable Long id) {
         projectService.getProjectById(id).map(project -> {
