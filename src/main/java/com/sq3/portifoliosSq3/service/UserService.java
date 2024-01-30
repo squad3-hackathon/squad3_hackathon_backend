@@ -1,32 +1,36 @@
 package com.sq3.portifoliosSq3.service;
 
-import com.sq3.portifoliosSq3.exceptions.InvalidLoginException;
-import com.sq3.portifoliosSq3.exceptions.UserCreateException;
+import com.sq3.portifoliosSq3.exceptions.models.InvalidLoginException;
+import com.sq3.portifoliosSq3.exceptions.models.UserCreateException;
 import com.sq3.portifoliosSq3.model.DTO.UserAuthenticationDTO;
-import com.sq3.portifoliosSq3.model.DTO.UserDTO;
 import com.sq3.portifoliosSq3.model.User;
+import com.sq3.portifoliosSq3.model.enums.Role;
 import com.sq3.portifoliosSq3.repository.UserRepository;
 import com.sq3.portifoliosSq3.security.CustomUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserService {
 
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService, AuthenticationManager authenticationManager) {
 
         this.userRepository = userRepository;
@@ -35,25 +39,28 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public Optional<User> getUserById(Long id) { return userRepository.findById(id); }
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
 
-    public User create(UserDTO userDTO) {
-        Optional<User> existUser = userRepository.findByEmail(userDTO.email());
-
-        if (existUser.isPresent()) {
-            throw new UserCreateException("Usuário já cadastrado " + userDTO.email());
+    public User create(User user) {
+        if (this.userRepository.existsByEmail(user.getEmail())) {
+            throw new UserCreateException("Usuário já cadastrado " + user.getEmail());
         }
+        String encryptedPassword = this.passwordEncoder.encode(user.getPassword());
+        Set<Role> roles = new HashSet<>();
+        roles.add(Role.USER);
 
-        String encryptedPassword = passwordEncoder.encode(userDTO.password());
-        User user = new User(userDTO.name(), userDTO.lastname(), userDTO.email(), encryptedPassword);
+        user.setPassword(encryptedPassword);
+        user.setRoles(roles);
 
         return userRepository.save(user);
     }
 
     public String authenticateAndGenerateToken(UserAuthenticationDTO userAuth) throws InvalidLoginException {
 
-        Optional<User> userOptional= userRepository.findByEmail(userAuth.email());
-        if(userOptional.isEmpty()) {
+        Optional<User> userOptional = userRepository.findByEmail(userAuth.email());
+        if (userOptional.isEmpty()) {
             throw new InvalidLoginException("Usuário não encontrado");
         }
 
@@ -69,8 +76,5 @@ public class UserService {
             throw new InvalidLoginException("Senha inválida!");
         }
     }
-
-
-    public Optional<User> getUserByUserName(String userName) { return userRepository.findByEmail(userName); }
 
 }

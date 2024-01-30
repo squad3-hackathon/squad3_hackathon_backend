@@ -1,6 +1,6 @@
 package com.sq3.portifoliosSq3.controller;
 
-import com.sq3.portifoliosSq3.exceptions.RecNotFoundException;
+import com.sq3.portifoliosSq3.exceptions.models.RecNotFoundException;
 import com.sq3.portifoliosSq3.model.DTO.ProjectDTO;
 import com.sq3.portifoliosSq3.model.DTO.ProjectListDTO;
 import com.sq3.portifoliosSq3.model.DTO.ResponseDTO;
@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.Base64;
 import java.util.List;

@@ -1,15 +1,20 @@
 package com.sq3.portifoliosSq3.model;
 
-import com.sq3.portifoliosSq3.model.DTO.UserDTO;
 import com.sq3.portifoliosSq3.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class User {
@@ -42,68 +47,4 @@ public class User {
     @Column(name = "role")
     private Set<Role> roles = new HashSet<>();
 
-
-    public User(){
-
-    }
-
-    public User(String name, String lastname, String email, String password){
-        this.name = name;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.setRoles(Set.of(Role.USER));
-    }
-
-    public User (UserDTO userDTO){
-        this.name = userDTO.name();
-        this.lastname = userDTO.lastname();
-        this.email = userDTO.email();
-        this.password = userDTO.password();
-        this.setRoles(Set.of(Role.USER));
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastname(){
-        return lastname;
-    }
-
-    public void setLastname(){
-        this.lastname = lastname;
-    }
-
-    public String getEmail(){
-        return email;
-    }
-
-    public void setEmail(){
-        this.email = email;
-    }
-
-    public String getPassword(){
-        return password;
-    }
-
-    public void setPassword(){
-        this.password = password;
-    }
-
-    public Set<Role> getRoles(){ return roles; }
-
-    public void setRoles(Set<Role> roles) { this.roles = roles;}
 }
