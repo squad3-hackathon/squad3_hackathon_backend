@@ -16,7 +16,11 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,12 +51,13 @@ public class ProjectController {
         User user = userService.getUserById(userId)
                 .orElseThrow(() -> new RecNotFoundException("Usuário não encontrado com o id: " + userId));
 
+        Date data = new Date();
         byte[] imageData = null;
         if (projectDTO.imageBase64() != null && !projectDTO.imageBase64().isEmpty()) {
             imageData = Base64.getDecoder().decode(projectDTO.imageBase64());
         }
 
-        Project project = new Project(projectDTO.title(), projectDTO.description(), projectDTO.link(), imageData, user);
+        Project project = new Project(projectDTO.title(), projectDTO.description(), projectDTO.link(), imageData, data, user);
         Project savedProject = projectService.createProject(project);
 
         return ResponseEntity.ok(savedProject);
@@ -73,11 +78,14 @@ public class ProjectController {
                     existingProject.setDescription(projectDTO.description());
                     existingProject.setLink(projectDTO.link());
 
+                    Date data = new Date();
+
                     byte[] imageData = null;
                     if (projectDTO.imageBase64() != null && !projectDTO.imageBase64().isEmpty()) {
                         imageData = Base64.getDecoder().decode(projectDTO.imageBase64());
                         existingProject.setData(imageData);
                     }
+                    existingProject.setCreationDate(data);
 
                     Project updateProject = projectService.updateProject(existingProject);
                     return ResponseEntity.ok(updateProject);
@@ -94,6 +102,7 @@ public class ProjectController {
 //                        project.getDescription(),
 //                        project.getLink(),
                         project.getData() != null ? Base64.getEncoder().encodeToString(project.getData()) : null,
+                        recDateFormatted(project.getCreationDate()),
                         project.getUser().getName()
                 ))
                 .collect(Collectors.toList());
@@ -115,6 +124,7 @@ public class ProjectController {
                             project.getDescription(),
                             project.getLink(),
                             imageDataBase64,
+                            project.getCreationDate(),
                             project.getUser().getName()
                     );
                     return ResponseEntity.ok(projectDTO);
@@ -134,5 +144,17 @@ public class ProjectController {
         }).orElseThrow(() -> new RecNotFoundException("Projeto não encotrado com ID: " + id));
 
         return ResponseEntity.ok(new ResponseDTO("Projeto excluido com sucesso."));
+    }
+
+    private String recDateFormatted(Date creationDate) {
+
+        if (creationDate != null) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yyyy");
+        LocalDate localDate = creationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        return localDate.format(formatter);
+        } else {
+            return null;
+        }
     }
 }

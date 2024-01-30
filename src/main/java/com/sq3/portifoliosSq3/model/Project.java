@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "projects")
 public class Project {
@@ -33,6 +35,11 @@ public class Project {
     @NotNull
     @Column(name = "imagedata", nullable = false)
     private byte[] data;
+
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -42,11 +49,12 @@ public class Project {
 
     }
 
-    public Project(String title, String description,String link, byte[] data, User user){
+    public Project(String title, String description,String link, byte[] data, Date creationDate, User user){
         this.title = title;
         this.link = link;
         this.description = description;
         this.data = data;
+        this.creationDate = creationDate;
         this.user = user;
     }
 
@@ -62,12 +70,20 @@ public class Project {
         return title;
     }
 
-    public void setTitle(String titulo) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
     public String getLink() {
         return link;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public void setLink(String link) { this.link = link; }
@@ -76,7 +92,7 @@ public class Project {
         return description;
     }
 
-    public void setDescription(String descricao) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

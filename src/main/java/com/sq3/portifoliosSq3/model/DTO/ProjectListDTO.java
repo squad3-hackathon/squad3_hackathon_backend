@@ -11,6 +11,8 @@ public record ProjectListDTO(
         Long id,
         String imageBase64,
 
+        String creationDate,
+
         String name
 ) {
 }
