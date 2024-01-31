@@ -7,7 +7,6 @@ import com.sq3.portifoliosSq3.model.Project;
 import com.sq3.portifoliosSq3.model.Tag;
 import com.sq3.portifoliosSq3.model.User;
 import com.sq3.portifoliosSq3.repository.ProjectRepository;
-import com.sq3.portifoliosSq3.repository.TagRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class ProjectService {
     public ProjectService(ProjectRepository projectRepository,
                           UserService userService,
                           TagService tagService
-                          ) {
+    ) {
 
         this.projectRepository = projectRepository;
         this.userService = userService;
@@ -47,7 +46,7 @@ public class ProjectService {
         Set<Tag> tags = null;
         if (projectDTO.tagNames() != null && !projectDTO.tagNames().isEmpty()) {
             tags = tagService.getTagsByNames(projectDTO.tagNames());
-            }
+        }
 
         byte[] imageData = null;
         if (projectDTO.imageBase64() != null && !projectDTO.imageBase64().isEmpty()) {

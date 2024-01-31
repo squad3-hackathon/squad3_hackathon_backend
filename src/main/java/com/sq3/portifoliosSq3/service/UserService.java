@@ -48,7 +48,7 @@ public class UserService {
         }
 
         String encryptedPassword = passwordEncoder.encode(userDTO.password());
-        User user = new User(userDTO.name(), userDTO.lastname(), userDTO.email(), encryptedPassword);
+        User user = new User(userDTO.name(), userDTO.lastName(), userDTO.email(), encryptedPassword);
 
         return userRepository.save(user);
     }

@@ -10,9 +10,7 @@ import java.util.List;
 
 public record ProjectDTO(
 
-
         Long id,
-
         @NotNull
         @NotBlank
         String title,
@@ -20,13 +18,10 @@ public record ProjectDTO(
         @NotBlank
         @Size(max = 1000)
         String description,
-
         @Pattern(regexp = "^(http|https)://.*|$", message = "URL informada inválida.")
         String link,
-
         @NotNull
         String imageBase64,
-
         Date creationDate,
 
         Long userId,

@@ -9,7 +9,6 @@ import java.util.List;
 
 public record ProjectListDTO(
 
-
         Long id,
         String imageBase64,
 

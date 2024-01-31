@@ -3,6 +3,7 @@ package com.sq3.portifoliosSq3.model;
 import com.sq3.portifoliosSq3.model.DTO.UserDTO;
 import com.sq3.portifoliosSq3.model.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,7 +25,7 @@ public class User {
 
     @NotNull
     @NotBlank
-    private String lastname;
+    private String lastName;
 
     @NotNull
     @NotBlank
@@ -47,9 +48,9 @@ public class User {
 
     }
 
-    public User(String name, String lastname, String email, String password){
+    public User(String name, String lastName, String email, String password){
         this.name = name;
-        this.lastname = lastname;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.setRoles(Set.of(Role.USER));
@@ -57,7 +58,7 @@ public class User {
 
     public User (UserDTO userDTO){
         this.name = userDTO.name();
-        this.lastname = userDTO.lastname();
+        this.lastName = userDTO.lastName();
         this.email = userDTO.email();
         this.password = userDTO.password();
         this.setRoles(Set.of(Role.USER));
@@ -79,12 +80,12 @@ public class User {
         this.name = name;
     }
 
-    public String getLastname(){
-        return lastname;
+    public String getLastName(){
+        return lastName;
     }
 
-    public void setLastname(){
-        this.lastname = lastname;
+    public void setLastName(){
+        this.lastName = lastName;
     }
 
     public String getEmail(){
