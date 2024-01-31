@@ -27,12 +27,15 @@ public class UserService {
 
     private AuthenticationManager authenticationManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService, AuthenticationManager authenticationManager) {
+    private AuthenticatedUserService authenticatedUserService;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService, AuthenticationManager authenticationManager, AuthenticatedUserService authenticatedUserService) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
+        this.authenticatedUserService = authenticatedUserService;
     }
 
     public Optional<User> getUserById(Long id) { return userRepository.findById(id); }
@@ -72,5 +75,9 @@ public class UserService {
 
 
     public Optional<User> getUserByUserName(String userName) { return userRepository.findByEmail(userName); }
+
+    public Long getAuthenticatedUserId() {
+        return authenticatedUserService.getAuthenticatedUserId();
+    }
 
 }

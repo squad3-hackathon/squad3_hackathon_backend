@@ -1,12 +1,14 @@
 package com.sq3.portifoliosSq3.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "projects")
@@ -23,8 +25,6 @@ public class Project {
     @Column(length = 1000)
     private String description;
 
-    //@NotNull
-    //@NotBlank
     @Column(length = 500)
     @Pattern(regexp = "^(http|https)://.*|$", message = "URL informada inválida.") // este regex verifica se a url começa com http ou https
     private String link;
@@ -45,17 +45,27 @@ public class Project {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "project_tags",
+            joinColumns = @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+
     public Project(){
 
     }
 
-    public Project(String title, String description,String link, byte[] data, Date creationDate, User user){
+    public Project(String title, String description,String link, byte[] data, Date creationDate, User user, Set<Tag> tags){
         this.title = title;
         this.link = link;
         this.description = description;
         this.data = data;
         this.creationDate = creationDate;
         this.user = user;
+        this.tags = (tags == null) ? new HashSet<>() : tags;
     }
 
     public Long getId() {
@@ -107,4 +117,25 @@ public class Project {
     public User getUser() { return user; }
 
     public void setUser(User user) { this.user = user; }
+
+    @JsonProperty("userId")
+    public Long getUserId() {
+        return user != null ? user.getId() : null;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    @JsonProperty("tagIds")
+    public Set<Long> getTagIds() {
+        if (tags == null) {
+            return Collections.emptySet();
+        }
+        return tags.stream().map(Tag::getId).collect(Collectors.toSet());
+    }
 }

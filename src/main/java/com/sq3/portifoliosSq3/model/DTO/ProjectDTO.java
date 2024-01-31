@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
+import java.util.List;
 
 public record ProjectDTO(
 
@@ -28,6 +29,10 @@ public record ProjectDTO(
 
         Date creationDate,
 
-        String name
+        Long userId,
+
+        String name,
+
+        List<String> tagNames
 ) {
 }
