@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticatedUserService {
-
     public Long getAuthenticatedUserId(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return ((CustomUserDetails) authentication.getPrincipal()).getUser().getId();

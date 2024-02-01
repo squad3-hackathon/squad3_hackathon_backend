@@ -6,15 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record UserDTO(
-
         @NotNull
         @NotBlank
         String name,
-
         @NotNull
         @NotBlank
         String lastName,
-
         @NotNull
         @NotBlank
         @Email(message = "Email inválido")
