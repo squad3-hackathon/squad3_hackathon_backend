@@ -1,28 +1,13 @@
 package com.sq3.portifoliosSq3.controller;
 
-import com.sq3.portifoliosSq3.exceptions.RecNotFoundException;
 import com.sq3.portifoliosSq3.model.DTO.ProjectDTO;
 import com.sq3.portifoliosSq3.model.DTO.ProjectListDTO;
-import com.sq3.portifoliosSq3.model.DTO.ResponseDTO;
 import com.sq3.portifoliosSq3.model.Project;
-import com.sq3.portifoliosSq3.model.User;
-import com.sq3.portifoliosSq3.service.AuthenticatedUserService;
 import com.sq3.portifoliosSq3.service.ProjectService;
-import com.sq3.portifoliosSq3.service.TagService;
-import com.sq3.portifoliosSq3.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
-
-
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/project")
@@ -48,7 +33,7 @@ public class ProjectController {
 
     }
 
-    @GetMapping
+    @GetMapping("/projects")
     public ResponseEntity<List<ProjectListDTO>> getAllProject() {
 
         return ResponseEntity.ok(projectService.getAllProject());

@@ -12,23 +12,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
 public class UserService {
-
-
     private PasswordEncoder passwordEncoder;
-
     private UserRepository userRepository;
-
     private TokenService tokenService;
-
     private AuthenticationManager authenticationManager;
-
     private AuthenticatedUserService authenticatedUserService;
-
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenService tokenService, AuthenticationManager authenticationManager, AuthenticatedUserService authenticatedUserService) {
 
         this.userRepository = userRepository;
@@ -48,7 +40,7 @@ public class UserService {
         }
 
         String encryptedPassword = passwordEncoder.encode(userDTO.password());
-        User user = new User(userDTO.name(), userDTO.lastname(), userDTO.email(), encryptedPassword);
+        User user = new User(userDTO.name(), userDTO.lastName(), userDTO.email(), encryptedPassword);
 
         return userRepository.save(user);
     }
@@ -72,12 +64,8 @@ public class UserService {
             throw new InvalidLoginException("Senha inválida!");
         }
     }
-
-
     public Optional<User> getUserByUserName(String userName) { return userRepository.findByEmail(userName); }
-
     public Long getAuthenticatedUserId() {
         return authenticatedUserService.getAuthenticatedUserId();
     }
-
 }

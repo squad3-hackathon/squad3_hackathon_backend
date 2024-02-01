@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-
     @ExceptionHandler(RecNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNotFoundException(RecNotFoundException exception) { return exception.getMessage(); }
@@ -23,7 +22,5 @@ public class ControllerAdvice {
     @ExceptionHandler(UserCreateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleUserCreateException(UserCreateException exception) { return exception.getMessage(); }
-
-
 
 }

@@ -4,15 +4,12 @@ import com.sq3.portifoliosSq3.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-
     private User user;
-
     public CustomUserDetails(User user) { this.user = user; }
 
     public User getUser() { return this.user; }

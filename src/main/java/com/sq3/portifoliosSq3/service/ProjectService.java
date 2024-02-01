@@ -7,11 +7,9 @@ import com.sq3.portifoliosSq3.model.Project;
 import com.sq3.portifoliosSq3.model.Tag;
 import com.sq3.portifoliosSq3.model.User;
 import com.sq3.portifoliosSq3.repository.ProjectRepository;
-import com.sq3.portifoliosSq3.repository.TagRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;

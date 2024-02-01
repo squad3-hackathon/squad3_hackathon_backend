@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,27 +23,21 @@ public class Project {
     @NotBlank
     @Column(length = 1000)
     private String description;
-
     @Column(length = 500)
     @Pattern(regexp = "^(http|https)://.*|$", message = "URL informada inválida.") // este regex verifica se a url começa com http ou https
     private String link;
-
-
     @JsonIgnore
     @Lob
     @NotNull
     @Column(name = "imagedata", nullable = false)
     private byte[] data;
-
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

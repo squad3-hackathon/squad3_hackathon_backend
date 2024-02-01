@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.sq3</groupId>
 	<artifactId>portifoliosSq3</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>portifoliosSq3</name>
 	<description>Projeto backend squad-3</description>
 	<properties>
