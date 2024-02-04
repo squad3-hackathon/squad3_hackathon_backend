@@ -14,5 +14,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     // Busca projetos pelos nomes das tags de um usuario
     @Query("SELECT p FROM Project p JOIN p.tags t WHERE p.user.id = :userId AND t.name IN :tags")
-    List<Project> findByUserIdAndTags(@Param("userId") Long userId, @Param("tags") List<String> tags);
+    List<Project> findByUserIdAndTags(@Param("userId") Long userId, @Param("tags") List<String> tags);// Busca projetos pelos nomes das tags de um usuario
+
+    // Busca projetos do usuário
+    @Query("SELECT p FROM Project p WHERE p.user.id = :userId ")
+    List<Project> findByUserId(@Param("userId") Long userId);
 }

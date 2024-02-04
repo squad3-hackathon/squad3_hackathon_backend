@@ -114,6 +114,22 @@ public class ProjectService {
     }
 
     @Transactional
+    public List<ProjectListDTO> getAllProjectUser() {
+
+        Long userId = userService.getAuthenticatedUserId();
+
+        return projectRepository.findByUserId(userId).stream()
+                .map(project -> new ProjectListDTO(
+                        project.getId(),
+                        project.getData() != null ? Base64.getEncoder().encodeToString(project.getData()) : null,
+                        recDateFormatted(project.getCreationDate()),
+                        project.getUser().getName(),
+                        project.getTags().stream().map(Tag::getName).collect(Collectors.toList())
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public ProjectDTO getProjectDTOById(Long id) {
 
         Long userId = userService.getAuthenticatedUserId();

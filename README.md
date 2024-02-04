@@ -35,6 +35,7 @@ cadastrados pelos usuários com a possibilidade de realização de buscas de pro
 - Atualizar Projeto: `PUT https://portifolio-deploy.onrender.com/project/{id}`
 - Consultar Projetos de todos usuários: `GET https://portifolio-deploy.onrender.com/project/projects`
 - Consultar Projeto por Id: `GET https://portifolio-deploy.onrender.com/project/{id}`
+- Consultar Projetos do Usuário: `GET https://portifolio-deploy.onrender.com/project/projects/user`
 - Consultar Projeto por tag: `GET https://portifolio-deploy.onrender.com/project/tag?tags={listname}&allUsers={boolean}`
 - Excluir Projeto: `DELETE https://portifolio-deploy.onrender.com/project/{id}`
 

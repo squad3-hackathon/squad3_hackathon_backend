@@ -39,6 +39,12 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.getAllProject());
     }
 
+    @GetMapping("/projects/user")
+    public ResponseEntity<List<ProjectListDTO>> getAllProjectUser() {
+
+        return ResponseEntity.ok(projectService.getAllProjectUser());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProjectDTO> getProjectById(@PathVariable Long id) {
 
